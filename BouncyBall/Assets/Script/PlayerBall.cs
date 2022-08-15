@@ -14,9 +14,11 @@ public class PlayerBall : MonoBehaviour
     Material material;
     AudioSource audio;
 
+
     // Start is called before the first frame update
     void Start()
     {
+        //DontDestroyOnLoad(gameObject);
         audio = GetComponent<AudioSource>();
         mesh = GetComponent<MeshRenderer>();
         rb = GetComponent<Rigidbody>();
@@ -41,6 +43,18 @@ public class PlayerBall : MonoBehaviour
             rb.AddForce(new Vector3(0, jumpPower, 0), ForceMode.Impulse);
             material.color = Color.yellow;
         }
+        else if(Input.GetKeyDown(KeyCode.F5))
+        {
+            SceneManager.LoadScene("Stage_" + (manager.stage + 1));
+        }
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if(collision.gameObject.tag == "Ground")
+        {
+            rb.AddForce(new Vector3(0, jumpPower, 0), ForceMode.Impulse);
+        }
     }
 
     private void OnTriggerEnter(Collider other)
@@ -61,17 +75,18 @@ public class PlayerBall : MonoBehaviour
         }
         else if (other.tag == "Finish")
         {
-            //Find로 찾아 써도 되지만 좋은 방법은 아님
-            //GameObject.FindGameObjectWithTag("GameManager");
-
             if (manager.totalCoinCount == coinCount)
             {
                 SceneManager.LoadScene("Stage_" + (manager.stage + 1));
+                
             }
             else
             {
                 SceneManager.LoadScene("Stage_" + manager.stage);
             }
         }
+
     }
 }
+
+

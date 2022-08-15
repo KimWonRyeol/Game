@@ -11,6 +11,7 @@ public class GameManager1 : MonoBehaviour
     public int stage;
     public TMP_Text stageCountText;
     public TMP_Text playerCountText;
+    public GameManager1 manager;
     
     // Start is called before the first frame update
     void Awake()
@@ -26,6 +27,8 @@ public class GameManager1 : MonoBehaviour
     void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.tag == "Player")
-            SceneManager.LoadScene(stage);
+        {
+            SceneManager.LoadScene("Stage_" + manager.stage);
+        }
     }
 }
